@@ -8,6 +8,9 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
   PlaceFood();
+  PlaceLandmine();
+  PlacePoison();
+  PlaceMotivation();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -25,7 +28,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, landmine, poison, motivation);
 
     frame_end = SDL_GetTicks();
 
@@ -65,6 +68,51 @@ void Game::PlaceFood() {
   }
 }
 
+void Game::PlaceLandmine() {
+    int x, y;
+    while (true) {
+        x = random_w(engine);
+        y = random_h(engine);
+        // Check that the location is not occupied by a snake item or food before placing
+        // landmine.
+        if (!snake.SnakeCell(x, y) && !(food.x == x && food.y == y)) {
+            landmine.x = x;
+            landmine.y = y;
+            return;
+        }
+    }
+}
+
+void Game::PlacePoison() {
+    int x, y;
+    while (true) {
+        x = random_w(engine);
+        y = random_h(engine);
+        // Check that the location is not occupied by a snake item or food or landmine before placing
+        // poison.
+        if (!snake.SnakeCell(x, y) && !(food.x == x && food.y == y) && !(landmine.x == x && landmine.y == y)) {
+            poison.x = x;
+            poison.y = y;
+            return;
+        }
+    }
+}
+
+void Game::PlaceMotivation() {
+    int x, y;
+    while (true) {
+        x = random_w(engine);
+        y = random_h(engine);
+        // Check that the location is not occupied by a snake item or food or landmine or poison before placing
+        // motivation.
+        if (!snake.SnakeCell(x, y) && !(food.x == x && food.y == y) && !(landmine.x == x && landmine.y == y) && !(poison.x == x && poison.y == y)) {
+            motivation.x = x;
+            motivation.y = y;
+            return;
+        }
+    }
+}
+
 void Game::Update() {
   if (!snake.alive) return;
 
@@ -77,9 +125,31 @@ void Game::Update() {
   if (food.x == new_x && food.y == new_y) {
     score++;
     PlaceFood();
+    PlaceLandmine();
+    PlacePoison();
+    PlaceMotivation();
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
+  }
+  // Check if there's landmine over here
+  if (landmine.x == new_x && landmine.y == new_y) {
+      snake.alive = false;
+      return;
+  }
+  if (poison.x == new_x && poison.y == new_y) {
+      PlaceFood();
+      PlaceLandmine();
+      PlacePoison();
+      PlaceMotivation();
+      snake.speed -= 0.05;
+  }
+  if (motivation.x == new_x && motivation.y == new_y) {
+      PlaceFood();
+      PlaceLandmine();
+      PlacePoison();
+      PlaceMotivation();
+      snake.speed += 0.05;
   }
 }
 
