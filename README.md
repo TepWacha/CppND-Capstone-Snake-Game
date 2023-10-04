@@ -73,7 +73,7 @@ The main classes of the program are `Game`, `Snake`, `Controller` and `Renderer`
 | The project uses Object Oriented Programming techniques.     | Can be seen in all objects files, the structure is explain in above section too. |
 | Classes use appropriate access specifiers for class members. | Can be seen in all header files.                             |
 | Class constructors utilize member initialization lists.      | Can be seen in all cpp files, e.g. [renderer.cpp](src/renderer.cpp). |
-| Classes encapsulate behavior.                                | Can be seen in all files, e.g. [food.h](src/food.h).         |
+| Classes encapsulate behavior.                                | Can be seen in all files, e.g. [snake.h](src/snake.h).         |
 
 ### Memory Management
 
