@@ -17,6 +17,7 @@ class Game {
 
  private:
   Snake snake;
+  Snake snake2;
   SDL_Point food;
   SDL_Point landmine;
   SDL_Point poison;

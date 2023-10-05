@@ -1,9 +1,11 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "playerq.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+    : snake(Player::plyr1,grid_width, grid_height, SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT),
+      snake2(Player::plyr2,grid_width, grid_height, SDLK_w, SDLK_s, SDLK_a, SDLK_d),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -27,6 +29,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
+    controller.HandleInput(running, snake2);
     Update();
     renderer.Render(snake, food, landmine, poison, motivation);
 
