@@ -9,16 +9,11 @@ class Snake {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(Player plyr, int grid_width, int grid_height, SDL_Keycode up, SDL_Keycode down, SDL_Keycode left, SDL_Keycode right)
+  Snake(Player plyr, int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
         head_x(grid_width / 2),
-        head_y(grid_height / 2) {
-          up_btt = up;
-          down_btt = down;
-          left_btt = left;
-          right_btt = right;
-        }
+        head_y(grid_height / 2) {}
 
   void Update();
 
@@ -34,10 +29,6 @@ class Snake {
   float head_y;
   std::vector<SDL_Point> body;
   Player plyr;
-  SDL_Keycode up_btt;
-  SDL_Keycode down_btt;
-  SDL_Keycode left_btt;
-  SDL_Keycode right_btt;
 
  private:
   void UpdateHead();

@@ -5,7 +5,7 @@
 
 class Controller {
  public:
-  void HandleInput(bool &running, Snake &snake) const;
+  void HandleInput(bool &running, Snake &snake, SDL_Keycode const up, SDL_Keycode const down, SDL_Keycode const left, SDL_Keycode const right) const;
 
  private:
   void ChangeDirection(Snake &snake, Snake::Direction input,

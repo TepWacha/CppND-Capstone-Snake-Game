@@ -4,8 +4,8 @@
 #include "playerq.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(Player::plyr1,grid_width, grid_height, SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT),
-      snake2(Player::plyr2,grid_width, grid_height, SDLK_w, SDLK_s, SDLK_a, SDLK_d),
+    : snake(Player::plyr1,grid_width, grid_height),
+      snake2(Player::plyr2,grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -15,7 +15,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   PlaceMotivation();
 }
 
-void Game::Run(Controller const &controller, Renderer &renderer,
+void Game::Run(Controller const &controller, Controller const &controller2, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
@@ -28,10 +28,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
-    controller.HandleInput(running, snake2);
+    controller.HandleInput(running, snake, SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT);
+    controller2.HandleInput(running, snake2, SDLK_w, SDLK_s, SDLK_a, SDLK_d);
     Update();
-    renderer.Render(snake, food, landmine, poison, motivation);
+    renderer.Render(snake, snake2, food, landmine, poison, motivation);
 
     frame_end = SDL_GetTicks();
 
@@ -117,9 +117,10 @@ void Game::PlaceMotivation() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!snake.alive || !snake2.alive) return;
 
   snake.Update();
+  snake2.Update();
 
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
