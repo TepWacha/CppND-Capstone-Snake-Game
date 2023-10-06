@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &landmine, SDL_Point const &poison, SDL_Point const &motivation) {
+void Renderer::Render(Snake const snake, Snake const snake2, SDL_Point const &food, SDL_Point const &landmine, SDL_Point const &poison, SDL_Point const &motivation) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -71,6 +71,24 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const 
   block.y = motivation.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
+  // Render snake2's body
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  for (SDL_Point const &point : snake2.body) {
+    block.x = point.x * block.w;
+    block.y = point.y * block.h;
+    SDL_RenderFillRect(sdl_renderer, &block);
+  }
+
+  // Render snake2's head
+  block.x = static_cast<int>(snake2.head_x) * block.w;
+  block.y = static_cast<int>(snake2.head_y) * block.h;
+  if (snake2.alive) {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x7A, 0xCC, 0xFF);
+  } else {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+  }
+  SDL_RenderFillRect(sdl_renderer, &block);
+
   // Render snake's body
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
   for (SDL_Point const &point : snake.body) {
@@ -93,7 +111,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const 
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score, int score2, int fps) {
+  std::string title{"P1 Score: " + std::to_string(score) + " P2 Score: " + std::to_string(score2) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
