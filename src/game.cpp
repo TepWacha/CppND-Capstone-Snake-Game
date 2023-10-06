@@ -4,8 +4,8 @@
 #include "playerq.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(Player::plyr1,grid_width, grid_height),
-      snake2(Player::plyr2,grid_width, grid_height),
+    : snake(Player::plyr1, grid_width, grid_height, grid_width * 3 / 4, grid_height, SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT),
+      snake2(Player::plyr2, grid_width , grid_height, grid_width / 4 , grid_height, SDLK_w, SDLK_s, SDLK_a, SDLK_d),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -28,8 +28,7 @@ void Game::Run(Controller const &controller, Controller const &controller2, Rend
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake, SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT);
-    controller2.HandleInput(running, snake2, SDLK_w, SDLK_s, SDLK_a, SDLK_d);
+    controller.HandleInput(running, snake, snake2);
     Update();
     renderer.Render(snake, snake2, food, landmine, poison, motivation);
 
