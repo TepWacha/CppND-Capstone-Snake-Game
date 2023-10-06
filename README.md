@@ -2,7 +2,7 @@
 
 This is my Capstone project of [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). Project Option 2 is chosen.
 
-This Snake Game is a snake game that is more complicate than original. Other than food, we have "landmine" "motivation" and "poison".
+This Snake Game is a snake game that is more complicate than original. This game is 2 Player snake game first player control with up,down,left,right second player control with w,s,a,d and other than food, we have "landmine" "motivation" and "poison".
 
 Additional rules from the original game is that :
 1. You hit landmine, you die immediately
@@ -37,7 +37,7 @@ The main classes of the program are `Game`, `Snake`, `Controller` and `Renderer`
 
 **Game** is composed of objects of `Snake`, `Controller` and `Renderer`. This class run the main Game Loop where all the action takes place.
 
-**Snake** class describes the user snake. It contains information and beavior of the snake.
+**Snake** class describes the user snake. It contains information and behavior of the snake.
 
 **Controller** handles the input and makes the snake move.
 
@@ -79,7 +79,7 @@ The main classes of the program are `Game`, `Snake`, `Controller` and `Renderer`
 
 | CRITERIA                                                     | MEETS SPECIFICATIONS                                         |
 | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| The project makes use of references in function declarations. | - |
+| The project makes use of references in function declarations. | Can be seen in SnakeUpdate function in [game.h](src/game.h). |
 | The project uses destructors appropriately.                  | - |
 | The project uses smart pointers instead of raw pointers.     | - |
 
