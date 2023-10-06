@@ -12,8 +12,10 @@ class Game {
   Game(std::size_t grid_width, std::size_t grid_height);
   void Run(Controller const &controller,Controller const &controller2, Renderer &renderer,
            std::size_t target_frame_duration);
-  int GetScore() const;
-  int GetSize() const;
+  int GetP1Score() const;
+  int GetP1Size() const;
+  int GetP2Score() const;
+  int GetP2Size() const;
 
  private:
   Snake snake;
@@ -28,13 +30,13 @@ class Game {
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
 
-  int score{0};
 
   void PlaceFood();
   void PlaceLandmine();
   void PlacePoison();
   void PlaceMotivation();
   void Update();
+  void SnakeUpdate(Snake &snake);
 };
 
 #endif

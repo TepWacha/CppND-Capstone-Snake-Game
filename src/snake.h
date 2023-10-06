@@ -37,6 +37,7 @@ class Snake {
   SDL_Keycode down; 
   SDL_Keycode left; 
   SDL_Keycode right;
+  int score{0};
 
  private:
   void UpdateHead();
